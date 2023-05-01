@@ -6,6 +6,7 @@ const keyboard = document.createElement('div');
 const description = document.createElement('div');
 const os = document.createElement('h3');
 const language = document.createElement('h3');
+let clickedKey;
 
 const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8',
   'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU',
@@ -165,7 +166,7 @@ keyboard.addEventListener('mousedown', (e) => {
       insertChar('\n');
     } else if (e.target.classList.contains('Tab')) {
       insertChar('\t');
-    } else if (e.target.classList.contains('Backspace')) {
+    } else if (e.target.classList.contains('Backspace') && selectionStart !== 0) {
       if (selectionStart === selectionEnd) {
         textArea.value = textArea.value.slice(0, selectionStart - 1)
           + textArea.value.slice(textArea.selectionEnd);
@@ -187,12 +188,14 @@ keyboard.addEventListener('mousedown', (e) => {
       }
     }
   }
+  clickedKey = e.target;
+  textArea.focus();
 });
 
 keyboard.addEventListener('mouseup', (e) => {
   const capsLock = keyboard.querySelector('.CapsLock');
-  if (!e.target.classList.contains('CapsLock')) e.target.classList.remove('active');
-  if (e.target.classList.contains('ShiftLeft') || e.target.classList.contains('ShiftRight')) {
+  if (!clickedKey.classList.contains('CapsLock')) clickedKey.classList.remove('active');
+  if (clickedKey.classList.contains('ShiftLeft') || clickedKey.classList.contains('ShiftRight')) {
     rerenderKeyboard(capsLock.classList.contains('active') ? engCaps : eng);
   }
 });
