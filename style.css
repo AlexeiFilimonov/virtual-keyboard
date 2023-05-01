@@ -61,3 +61,7 @@
 .description-row {
   text-align: center;
 }
+
+.active {
+  background-color: #a86464;
+}
