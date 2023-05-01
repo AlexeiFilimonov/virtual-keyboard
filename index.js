@@ -242,8 +242,8 @@ keyboard.addEventListener('mousedown', (e) => {
 
 document.addEventListener('mouseup', () => {
   const capsLock = keyboard.querySelector('.CapsLock');
-  if (!clickedKey.classList.contains('CapsLock')) clickedKey.classList.remove('active');
-  if (clickedKey.classList.contains('ShiftLeft') || clickedKey.classList.contains('ShiftRight')) {
+  if (clickedKey && !clickedKey.classList.contains('CapsLock')) clickedKey.classList.remove('active');
+  if (clickedKey && (clickedKey.classList.contains('ShiftLeft') || clickedKey.classList.contains('ShiftRight'))) {
     rerenderKeyboard(capsLock.classList.contains('active') ? layouts[lang].Caps : layouts[lang].standart);
   }
 });

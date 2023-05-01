@@ -65,5 +65,6 @@
 }
 
 .key.active {
+  border-radius: 20px;
   background-color: #a86464;
 }
