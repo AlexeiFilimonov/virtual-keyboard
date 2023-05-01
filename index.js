@@ -149,7 +149,7 @@ window.addEventListener('keydown', (e) => {
     insertChar('\n');
   } else if (e.code === 'Tab') {
     insertChar('\t');
-  } else if (e.code === 'Backspace') {
+  } else if (e.code === 'Backspace' && selectionStart !== 0) {
     if (selectionStart === selectionEnd) {
       textArea.value = textArea.value.slice(0, selectionStart - 1)
         + textArea.value.slice(textArea.selectionEnd);
