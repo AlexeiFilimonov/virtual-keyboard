@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+}
+
+.textArea {
+  width: 698px;
+  height: 200px;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.keyboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 698px;
+}
+
+.key {
+  width: 40px;
+  height: 40px;
+  background-color: #4b3c3c;
+  border-radius: 5px;
+  color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: .3s;
+}
+
+.key:hover {
+  background-color: #372b2b;
+}
+
+.longKey {
+  width: 100px;
+}
+
+.midKey {
+  width: 86px;
+}
+
+.tabKey {
+  width: 54px;
+}
+
+.spaceKey {
+  width: 330px;
+}
+
+.description-row {
+  text-align: center;
+}
+
+.key.active {
+  border-radius: 20px;
+  background-color: #a86464;
+}
