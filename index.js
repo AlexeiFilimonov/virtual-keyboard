@@ -240,7 +240,7 @@ keyboard.addEventListener('mousedown', (e) => {
   textArea.focus();
 });
 
-keyboard.addEventListener('mouseup', () => {
+document.addEventListener('mouseup', () => {
   const capsLock = keyboard.querySelector('.CapsLock');
   if (!clickedKey.classList.contains('CapsLock')) clickedKey.classList.remove('active');
   if (clickedKey.classList.contains('ShiftLeft') || clickedKey.classList.contains('ShiftRight')) {
