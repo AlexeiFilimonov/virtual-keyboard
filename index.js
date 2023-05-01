@@ -140,3 +140,59 @@ window.addEventListener('keyup', (e) => {
     rerenderKeyboard(capsLock.classList.contains('active') ? engCaps : eng);
   }
 });
+
+keyboard.addEventListener('mousedown', (e) => {
+  if (e.target.classList.contains('key')) {
+    const capsLock = keyboard.querySelector('.CapsLock');
+    const shiftActive = document.querySelector('.ShiftLeft.active') || document.querySelector('.ShiftRight.active');
+    const { selectionStart } = textArea;
+    const { selectionEnd } = textArea;
+    if (!e.target.classList.contains('CapsLock')) e.target.classList.add('active');
+    if (e.target.textContent.length === 1 || e.target.classList.contains(('Arrow'))) {
+      const newChar = e.target.textContent;
+      insertChar(newChar);
+    } else if (e.target.classList.contains('ShiftLeft') || e.target.classList.contains('ShiftRight')) {
+      rerenderKeyboard(capsLock.classList.contains('active') ? engShiftCaps : engShift);
+    } else if (e.target.classList.contains('CapsLock')) {
+      if (capsLock.classList.contains('active')) {
+        capsLock.classList.remove('active');
+        rerenderKeyboard(shiftActive ? engShift : eng);
+      } else {
+        capsLock.classList.add('active');
+        rerenderKeyboard(shiftActive ? engShiftCaps : engCaps);
+      }
+    } else if (e.target.classList.contains('Enter')) {
+      insertChar('\n');
+    } else if (e.target.classList.contains('Tab')) {
+      insertChar('\t');
+    } else if (e.target.classList.contains('Backspace')) {
+      if (selectionStart === selectionEnd) {
+        textArea.value = textArea.value.slice(0, selectionStart - 1)
+          + textArea.value.slice(textArea.selectionEnd);
+        textArea.setSelectionRange(selectionStart - 1, selectionStart - 1);
+      } else {
+        textArea.value = textArea.value.slice(0, selectionStart)
+          + textArea.value.slice(textArea.selectionEnd);
+        textArea.setSelectionRange(selectionStart, selectionStart);
+      }
+    } else if (e.target.classList.contains('Delete')) {
+      if (selectionStart === selectionEnd) {
+        textArea.value = textArea.value.slice(0, selectionStart)
+          + textArea.value.slice(textArea.selectionEnd + 1);
+        textArea.setSelectionRange(selectionStart, selectionStart);
+      } else {
+        textArea.value = textArea.value.slice(0, selectionStart)
+          + textArea.value.slice(textArea.selectionEnd);
+        textArea.setSelectionRange(selectionStart, selectionStart);
+      }
+    }
+  }
+});
+
+keyboard.addEventListener('mouseup', (e) => {
+  const capsLock = keyboard.querySelector('.CapsLock');
+  if (!e.target.classList.contains('CapsLock')) e.target.classList.remove('active');
+  if (e.target.classList.contains('ShiftLeft') || e.target.classList.contains('ShiftRight')) {
+    rerenderKeyboard(capsLock.classList.contains('active') ? engCaps : eng);
+  }
+});
