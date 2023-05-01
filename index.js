@@ -75,6 +75,7 @@ container.append(title);
 
 textArea.className = 'textArea';
 container.append(textArea);
+textArea.focus();
 
 keyboard.className = 'keyboard';
 container.append(keyboard);
@@ -186,6 +187,7 @@ window.addEventListener('keyup', (e) => {
 
 keyboard.addEventListener('mousedown', (e) => {
   if (e.target.classList.contains('key')) {
+    e.preventDefault();
     const capsLock = keyboard.querySelector('.CapsLock');
     const shiftActive = document.querySelector('.ShiftLeft.active') || document.querySelector('.ShiftRight.active');
     const { selectionStart } = textArea;
@@ -233,8 +235,8 @@ keyboard.addEventListener('mousedown', (e) => {
     } else if (e.target.textContent === 'Ctrl' && e.altKey) {
       changeLang(capsLock.classList.contains('active'), e.shiftKey);
     }
+    clickedKey = e.target;
   }
-  clickedKey = e.target;
   textArea.focus();
 });
 
