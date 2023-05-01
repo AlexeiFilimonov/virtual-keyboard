@@ -7,6 +7,58 @@ const description = document.createElement('div');
 const os = document.createElement('h3');
 const language = document.createElement('h3');
 let clickedKey;
+let lang = localStorage.getItem('lang') || 'EN';
+
+const layouts = {
+  EN: {
+    standart: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+      'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del',
+      'Caps Lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter',
+      'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+    Shift: ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
+      'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Del',
+      'Caps Lock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter',
+      'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+
+    Caps: ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+      'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Del',
+      'Caps Lock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter',
+      'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+
+    ShiftCaps: ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
+      'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Del',
+      'Caps Lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter',
+      'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+  },
+  RU: {
+    standart: ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+      'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
+      'Caps Lock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
+      'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+    Shift: ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace',
+      'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/', 'Del',
+      'Caps Lock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter',
+      'Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+
+    Caps: ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+      'Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\', 'Del',
+      'Caps Lock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter',
+      'Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '/', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+
+    ShiftCaps: ['ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace',
+      'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del',
+      'Caps Lock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
+      'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '▲', 'Shift',
+      'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'],
+  },
+};
 
 const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8',
   'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU',
@@ -14,30 +66,6 @@ const keyCodes = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5',
   'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC',
   'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft',
   'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
-
-const eng = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-  'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del',
-  'Caps Lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'Enter',
-  'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '▲', 'Shift',
-  'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'];
-
-const engShift = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
-  'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|', 'Del',
-  'Caps Lock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', 'Enter',
-  'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '▲', 'Shift',
-  'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'];
-
-const engCaps = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-  'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Del',
-  'Caps Lock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter',
-  'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', '▲', 'Shift',
-  'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'];
-
-const engShiftCaps = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
-  'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Del',
-  'Caps Lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter',
-  'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', '▲', 'Shift',
-  'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◄', '▼', '►', 'Ctrl'];
 
 container.className = 'container';
 body.append(container);
@@ -51,7 +79,7 @@ container.append(textArea);
 keyboard.className = 'keyboard';
 container.append(keyboard);
 
-eng.forEach((el, ind) => {
+layouts[lang].standart.forEach((el, ind) => {
   const key = document.createElement('div');
   key.className = 'key';
   if (el === 'Enter' || ind === 54) key.className += ' midKey';
@@ -87,6 +115,16 @@ function insertChar(charValue) {
   textArea.setSelectionRange(selectionStart + 1, selectionStart + 1);
 }
 
+function changeLang(capsAvtive, shiftActive) {
+  if (lang === 'EN') lang = 'RU';
+  else lang = 'EN';
+  localStorage.setItem('lang', lang);
+  if (capsAvtive && shiftActive) rerenderKeyboard(layouts[lang].ShiftCaps);
+  else if (capsAvtive) rerenderKeyboard(layouts[lang].Caps);
+  else if (shiftActive) rerenderKeyboard(layouts[lang].Shift);
+  else rerenderKeyboard(layouts[lang].standart);
+}
+
 window.addEventListener('keydown', (e) => {
   e.preventDefault();
   const capsLock = keyboard.querySelector('.CapsLock');
@@ -97,14 +135,14 @@ window.addEventListener('keydown', (e) => {
     const newChar = keyboard.querySelector(`.${e.code}`).textContent;
     insertChar(newChar);
   } else if (e.key === 'Shift') {
-    rerenderKeyboard(capsLock.classList.contains('active') ? engShiftCaps : engShift);
+    rerenderKeyboard(capsLock.classList.contains('active') ? layouts[lang].ShiftCaps : layouts[lang].Shift);
   } else if (e.code === 'CapsLock' && e.repeat === false) {
     if (capsLock.classList.contains('active')) {
       capsLock.classList.remove('active');
-      rerenderKeyboard(e.shiftKey ? engShift : eng);
+      rerenderKeyboard(e.shiftKey ? layouts[lang].Shift : layouts[lang].standart);
     } else {
       capsLock.classList.add('active');
-      rerenderKeyboard(e.shiftKey ? engShiftCaps : engCaps);
+      rerenderKeyboard(e.shiftKey ? layouts[lang].ShiftCaps : layouts[lang].Caps);
     }
   } else if (e.code === 'Enter') {
     insertChar('\n');
@@ -130,6 +168,10 @@ window.addEventListener('keydown', (e) => {
         + textArea.value.slice(textArea.selectionEnd);
       textArea.setSelectionRange(selectionStart, selectionStart);
     }
+  } else if (e.code.includes('Alt') && e.ctrlKey) {
+    changeLang(capsLock.classList.contains('active'), e.shiftKey);
+  } else if (e.code.includes('Control') && e.altKey) {
+    changeLang(capsLock.classList.contains('active'), e.shiftKey);
   }
 });
 
@@ -138,7 +180,7 @@ window.addEventListener('keyup', (e) => {
   const capsLock = keyboard.querySelector('.CapsLock');
   if (e.code !== 'CapsLock') keyboard.querySelector(`.${e.code}`).classList.remove('active');
   if (e.key === 'Shift') {
-    rerenderKeyboard(capsLock.classList.contains('active') ? engCaps : eng);
+    rerenderKeyboard(capsLock.classList.contains('active') ? layouts[lang].Caps : layouts[lang].standart);
   }
 });
 
@@ -153,14 +195,14 @@ keyboard.addEventListener('mousedown', (e) => {
       const newChar = e.target.textContent;
       insertChar(newChar);
     } else if (e.target.classList.contains('ShiftLeft') || e.target.classList.contains('ShiftRight')) {
-      rerenderKeyboard(capsLock.classList.contains('active') ? engShiftCaps : engShift);
+      rerenderKeyboard(capsLock.classList.contains('active') ? layouts[lang].ShiftCaps : layouts[lang].Shift);
     } else if (e.target.classList.contains('CapsLock')) {
       if (capsLock.classList.contains('active')) {
         capsLock.classList.remove('active');
-        rerenderKeyboard(shiftActive ? engShift : eng);
+        rerenderKeyboard(shiftActive ? layouts[lang].Shift : layouts[lang].standart);
       } else {
         capsLock.classList.add('active');
-        rerenderKeyboard(shiftActive ? engShiftCaps : engCaps);
+        rerenderKeyboard(shiftActive ? layouts[lang].ShiftCaps : layouts[lang].Caps);
       }
     } else if (e.target.classList.contains('Enter')) {
       insertChar('\n');
@@ -186,16 +228,20 @@ keyboard.addEventListener('mousedown', (e) => {
           + textArea.value.slice(textArea.selectionEnd);
         textArea.setSelectionRange(selectionStart, selectionStart);
       }
+    } else if (e.target.textContent === 'Alt' && e.ctrlKey) {
+      changeLang(capsLock.classList.contains('active'), e.shiftKey);
+    } else if (e.target.textContent === 'Ctrl' && e.altKey) {
+      changeLang(capsLock.classList.contains('active'), e.shiftKey);
     }
   }
   clickedKey = e.target;
   textArea.focus();
 });
 
-keyboard.addEventListener('mouseup', (e) => {
+keyboard.addEventListener('mouseup', () => {
   const capsLock = keyboard.querySelector('.CapsLock');
   if (!clickedKey.classList.contains('CapsLock')) clickedKey.classList.remove('active');
   if (clickedKey.classList.contains('ShiftLeft') || clickedKey.classList.contains('ShiftRight')) {
-    rerenderKeyboard(capsLock.classList.contains('active') ? engCaps : eng);
+    rerenderKeyboard(capsLock.classList.contains('active') ? layouts[lang].Caps : layouts[lang].standart);
   }
 });
